@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | ShopEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <h1 class="logo">ShopEase</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#cart">Back to Cart</a>
+        </nav>
+    </header>
+
+    <main class="cart-section checkout-card">
+        <h2>Checkout</h2>
+        <p>Review your order before continuing.</p>
+
+        <div id="checkout-items"></div>
+
+        <h3>Total: ₹<span id="checkout-total">0</span></h3>
+
+        <h3>Delivery Details</h3>
+
+        <form id="checkout-form">
+            <label for="customer-name">Full Name</label>
+            <input type="text" id="customer-name" required>
+
+            <label for="customer-address">Delivery Address</label>
+            <textarea id="customer-address" required></textarea>
+
+            <label for="customer-phone">Phone Number</label>
+            <input type="tel" id="customer-phone"
+                   pattern="[0-9]{10}"
+                   maxlength="10" required>
+
+            <button type="submit" class="checkout-button">Place Order</button>
+        </form>
+
+        <p id="checkout-message"></p>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/checkout.js') }}"></script>
+</body>
+</html>

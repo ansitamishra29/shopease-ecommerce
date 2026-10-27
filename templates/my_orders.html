@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | ShopEase</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <h1 class="logo">ShopEase</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#products">Products</a>
+            <a href="/#cart">Cart</a>
+            <a href="/my-orders">My Orders</a>
+        </nav>
+    </header>
+
+    <main class="container orders-page">
+
+        <section class="orders-heading">
+            <p class="eyebrow">YOUR SHOPPING HISTORY</p>
+            <h2>Your Orders</h2>
+            <p>Track your purchases and review your order details.</p>
+        </section>
+
+        {% if orders %}
+            {% for order in orders %}
+
+                <section class="order-card">
+
+                    <div class="order-header">
+                        <div>
+                            <p class="order-label">ORDER NUMBER</p>
+                            <h3>#{{ order.order_id }}</h3>
+                        </div>
+
+                        <span class="order-status">Order Placed</span>
+                    </div>
+
+                    <div class="order-information">
+                        <p>
+                            <strong>Customer</strong>
+                            <span>{{ order.customer_name }}</span>
+                        </p>
+
+                        <p>
+                            <strong>Order Date</strong>
+                            <span>{{ order.order_date }}</span>
+                        </p>
+                    </div>
+
+                    <div class="order-products">
+                        <h4>Items in your order</h4>
+
+                        <ul>
+                            {% for item in order["items"] %}
+                                <li>
+                                    <div>
+                                        <span class="item-name">
+                                            {{ item.product_name }}
+                                        </span>
+
+                                        <span class="item-quantity">
+                                            Quantity: {{ item.quantity }}
+                                        </span>
+                                    </div>
+
+                                    <span class="item-price">
+                                        ₹{{ "%.2f"|format(item.price * item.quantity) }}
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="order-total">
+                        <span>Total Amount</span>
+                        <strong>
+                            ₹{{ "%.2f"|format(order.total_amount) }}
+                        </strong>
+                    </div>
+
+                </section>
+
+            {% endfor %}
+
+        {% else %}
+
+            <section class="order-card empty-orders">
+                <h3>No orders yet</h3>
+                <p>Your next great find is waiting for you.</p>
+                <a href="/" class="shop-button">Start Shopping</a>
+            </section>
+
+        {% endif %}
+
+        <div class="orders-footer">
+            <a href="/" class="shop-button">Continue Shopping</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>ShopEase · A better way to shop.</p>
+    </footer>
+
+</body>
+</html>

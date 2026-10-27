@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | ShopEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-card {
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 32px;
+            background: var(--surface, #191b20);
+            border: 1px solid var(--border, #343640);
+            border-radius: 16px;
+            color: var(--text, #f5f3ee);
+        }
+        .auth-card h1 { margin-top: 0; }
+        .auth-card label { display: block; margin-top: 16px; }
+        .auth-card input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 8px;
+        }
+        .auth-card button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            cursor: pointer;
+        }
+        #message { margin-top: 16px; }
+        .auth-link { margin-top: 18px; }
+    </style>
+</head>
+<body>
+    <main class="auth-card">
+        <h1>Create your account</h1>
+        <p>Join ShopEase and start shopping.</p>
+
+        <form id="signup-form">
+            <label for="full_name">Full name</label>
+            <input id="full_name" name="full_name"
+                   type="text" maxlength="100" required>
+
+            <label for="email">Email address</label>
+            <input id="email" name="email"
+                   type="email" maxlength="150" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password"
+                   type="password" minlength="8" required>
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <p id="message" role="status"></p>
+        <p class="auth-link">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+        <p><a href="{{ url_for('home') }}">Back to ShopEase</a></p>
+    </main>
+
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById("message");
+            const formData = new FormData(this);
+
+            message.textContent = "Creating your account...";
+
+            try {
+                const response = await fetch("{{ url_for('signup') }}", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+                message.textContent = result.message;
+
+                if (response.ok) {
+                    this.reset();
+                }
+            } catch (error) {
+                message.textContent = "Could not connect to ShopEase. Please try again.";
+            }
+        });
+    </script>
+</body>
+</html>

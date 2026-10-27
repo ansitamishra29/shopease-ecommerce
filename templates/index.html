@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase | Online Store</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <h1 class="logo">ShopEase</h1>
+       
+<nav>
+    <a href="/">Home</a>
+    <a href="#products">Products</a>
+    <a href="#cart">Cart (<span id="cart-count">0</span>)</a>
+    <a href="/my-orders">My Orders</a>
+</nav>
+
+
+<div class="user-actions">
+    <span>Welcome, {{ session.get('full_name', 'User') }}</span>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</div>
+
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Welcome to ShopEase</h2>
+            <p>Discover products you'll love at prices you'll enjoy.</p>
+            <a href="#products" class="shop-button">Explore Products</a>
+        </section>
+
+        <section id="products" class="products-section">
+            <h2>Our Products</h2>
+
+            <div class="products">
+                <article class="product-card">
+                    <div class="product-image">🎧</div>
+                    <h3>Wireless Headphones</h3>
+                    <p class="price">₹1,499</p>
+                    <button type="button">Add to Cart</button>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">⌚</div>
+                    <h3>Smart Watch</h3>
+                    <p class="price">₹2,499</p>
+                    <button type="button">Add to Cart</button>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">🎒</div>
+                    <h3>Travel Backpack</h3>
+                    <p class="price">₹999</p>
+                    <button type="button">Add to Cart</button>
+                </article>
+            </div>
+        </section>
+    </main>
+    
+    
+<section id="cart" class="cart-section">
+    <h2>Your Shopping Cart</h2>
+    <div id="cart-items">
+        <p>Your cart is empty.</p>
+    </div>
+    <h3>Total: ₹<span id="cart-total">0</span></h3>
+    <button id="clear-cart" type="button">Clear Cart</button>
+    <button id="checkout-button" type="button">Proceed to Checkout</button>
+</section>
+
+    <footer>
+        <p>© 2026 ShopEase. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ShopEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .auth-card {
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 32px;
+            background: var(--surface, #191b20);
+            border: 1px solid var(--border, #343640);
+            border-radius: 16px;
+            color: var(--text, #f5f3ee);
+        }
+        .auth-card h1 { margin-top: 0; }
+        .auth-card label { display: block; margin-top: 16px; }
+        .auth-card input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 8px;
+        }
+        .auth-card button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            cursor: pointer;
+        }
+        #message { margin-top: 16px; }
+        .auth-link { margin-top: 18px; }
+    </style>
+</head>
+<body>
+    <main class="auth-card">
+        <h1>Welcome Back</h1>
+        <p>Log in to your ShopEase account.</p>
+
+        <form id="login-form">
+            <label for="email">Email address</label>
+            <input id="email" name="email"
+                   type="email" maxlength="150" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password"
+                   type="password" required>
+
+            <button type="submit">Log In</button>
+        </form>
+
+        <p id="message" role="status"></p>
+        <p class="auth-link">
+            Don't have an account?
+            <a href="{{ url_for('signup') }}">Create one</a>
+        </p>
+        <p><a href="{{ url_for('home') }}">Back to ShopEase</a></p>
+    </main>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById("message");
+            const formData = new FormData(this);
+
+            message.textContent = "Logging in...";
+
+            try {
+                const response = await fetch("{{ url_for('login') }}", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+                message.textContent = result.message;
+
+                if (response.ok && result.redirect) {
+                    window.location.href = result.redirect;
+                }
+            } catch (error) {
+                message.textContent = "Could not connect to ShopEase. Please try again.";
+            }
+        });
+    </script>
+</body>
+</html>
